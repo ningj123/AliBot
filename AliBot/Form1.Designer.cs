@@ -33,6 +33,7 @@
             this.CloseBrowser = new System.Windows.Forms.Button();
             this.FileSelectorURLs = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.StartWork = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // OpenBrowser
@@ -41,7 +42,7 @@
             this.OpenBrowser.Name = "OpenBrowser";
             this.OpenBrowser.Size = new System.Drawing.Size(107, 23);
             this.OpenBrowser.TabIndex = 0;
-            this.OpenBrowser.Text = "Открыть Browser";
+            this.OpenBrowser.Text = "Открыть Chrome";
             this.OpenBrowser.UseVisualStyleBackColor = true;
             this.OpenBrowser.Click += new System.EventHandler(this.OpenBrowser_Click);
             // 
@@ -54,7 +55,7 @@
             this.CloseBrowser.Name = "CloseBrowser";
             this.CloseBrowser.Size = new System.Drawing.Size(107, 23);
             this.CloseBrowser.TabIndex = 1;
-            this.CloseBrowser.Text = "Закрыть Browser";
+            this.CloseBrowser.Text = "Закрыть Chrome";
             this.CloseBrowser.UseVisualStyleBackColor = false;
             this.CloseBrowser.Click += new System.EventHandler(this.CloseBrowser_Click);
             // 
@@ -80,11 +81,23 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Выбрать файл со списком товаров";
             // 
+            // StartWork
+            // 
+            this.StartWork.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.StartWork.Location = new System.Drawing.Point(44, 54);
+            this.StartWork.Name = "StartWork";
+            this.StartWork.Size = new System.Drawing.Size(107, 23);
+            this.StartWork.TabIndex = 4;
+            this.StartWork.Text = "Сбор информации";
+            this.StartWork.UseVisualStyleBackColor = false;
+            this.StartWork.Click += new System.EventHandler(this.StartWork_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(638, 287);
+            this.Controls.Add(this.StartWork);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.FileSelectorURLs);
             this.Controls.Add(this.CloseBrowser);
@@ -103,6 +116,7 @@
         private System.Windows.Forms.Button CloseBrowser;
         private System.Windows.Forms.Button FileSelectorURLs;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button StartWork;
     }
 }
 
