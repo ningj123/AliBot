@@ -30,8 +30,7 @@ namespace AliBot
         string[] urls;
         string ProductTitle;
         string ProductPrice;
-        string downloadFolderPath = @"C:\Users\Админ\Downloads\";
-        public char charFileName = 'A';
+        string downloadFolderPath = @"C:\Users\Админ\Downloads\";        
 
         List<string> colors = new List<string>(); // Лист с цветами 
         List<string> sizes = new List<string>(); // Лист с Размерами
@@ -86,8 +85,8 @@ namespace AliBot
             workSheetOPTIONS = (Excel.Worksheet)sheets.Item[3];
             workSheetOPTIONSVALUES = (Excel.Worksheet)sheets.Item[4];
             workSheetATTRIBUTES = (Excel.Worksheet)sheets.Item[5];
-            lastColorRow = 1;
-            lastSizeRow = 0;
+            lastColorRow = 0;
+            lastSizeRow = 1;
             lastAttributesRow = 1;
             lastImagesRow = 1;
         }
@@ -167,7 +166,7 @@ namespace AliBot
                         var colorsElements = browser.FindElements(By.CssSelector("#j-product-info-sku dl dd ul li a img"));
                         int colorImgCount = 0;                                         
                         foreach (var el in colorsElements) {
-                            Thread.Sleep(1000);                            
+                            Thread.Sleep(2000);                            
                             jse.ExecuteScript(string.Format("var link = document.createElement('a'); link.target = '_blank'; link.download = 'img.jpg'; link.href = '{0}'; link.click();", el.GetAttribute("src")));
                             if (colorImgCount == 0)
                             {
@@ -185,7 +184,7 @@ namespace AliBot
 
                     }
                     catch {
-                        var colorsElements = browser.FindElements(By.CssSelector("#j-sku-lis-1 li a span"));
+                        var colorsElements = browser.FindElements(By.CssSelector("#j-sku-list-1 li a"));
                         foreach (var el in colorsElements) {
                             colors.Add(el.GetAttribute("title"));                            
                         }
@@ -222,7 +221,7 @@ namespace AliBot
                     int imageCount = 0;
                     foreach (var str in LIimagesForSave)
                     {
-                        Thread.Sleep(3000);                        
+                        Thread.Sleep(4000);                        
                         jse.ExecuteScript(string.Format("var link = document.createElement('a'); link.target = '_blank'; link.download = 'img.jpg'; link.href = '{0}'; link.click();", str.GetAttribute("src")));
                         if (imageCount == 0)
                         {
@@ -230,8 +229,7 @@ namespace AliBot
                         }
                         else {
                             OldFileNames.Add(str.GetAttribute("src").Split('/').Last().Split('.')[0] + " (" + imageCount + ")" + ".jpg");
-                        }
-                        
+                        }                        
                         imageCount += 1;
                     }
                     /* Качаем изображения */
@@ -243,7 +241,8 @@ namespace AliBot
                     features.Clear();
                     OldFileNames.Clear();
                     newFileNames.Clear();
-
+                    OldColorImgNames.Clear();
+                    colors.Clear();
                 }
             }
             catch (Exception ex)
@@ -256,7 +255,7 @@ namespace AliBot
         }
 
         public void PrintingToExcel(string title, string price, List<string> sizes, List<string> colors, string[,] featuresEndValues, List<string> newFileNames) {
-
+            Application.DoEvents();
             /*Первая страница*/
             cells = workSheetPRODUCTS.Range["A" + curentProductID, "A" + curentProductID];
             cells.Value2 = curentProductID.ToString();
@@ -287,7 +286,7 @@ namespace AliBot
             /*Третья страница*/
             
             /*Четвертая страница*/
-            lastColorRow = lastSizeRow +1;
+            lastColorRow = lastSizeRow;
             for (int i = 0; i < colors.Count; i++) {
                 cells = workSheetOPTIONSVALUES.Range["A" + lastColorRow, "A" + lastColorRow];
                 cells.Value2 = curentProductID.ToString();
@@ -297,7 +296,7 @@ namespace AliBot
                 cells.Value2 = colors[i].ToString();
                 lastColorRow += 1;
             }
-            lastSizeRow = lastColorRow-1;
+            lastSizeRow = lastColorRow;
             for (int i = 0; i < sizes.Count; i++)
             {
                 cells = workSheetOPTIONSVALUES.Range["A" + lastSizeRow, "A" + lastSizeRow];
@@ -327,6 +326,8 @@ namespace AliBot
         }
 
         public List<string> RenameImages(List<string> oldImagesNames) {
+            Application.DoEvents();
+            char charFileName = 'A';
             try
             {
                 foreach (string str in oldImagesNames)
@@ -342,12 +343,14 @@ namespace AliBot
                 SW.WriteLine("Ошибка чтения файла " + curentProductID.ToString() + " - " + ex.Message + Environment.NewLine);
                 SW.Close();                
             }
-            charFileName = 'A';
+            
             return newFileNames;
         }
 
         public List<string> renameColorImages(List<string> OldNames)
         {
+            Application.DoEvents();
+            Thread.Sleep(2000);
             List<string> tempColorsNames = new List<string>();
             char newNameChar = 'A';
             try
@@ -355,7 +358,7 @@ namespace AliBot
                 foreach (string el in OldNames)
                 {
                     Thread.Sleep(100);
-                    File.Move(downloadFolderPath + el, downloadFolderPath + @"colorImg\" + "colorImg_" + curentProductID + newNameChar);
+                    File.Move(downloadFolderPath + el, downloadFolderPath + @"colorImg\" + "colorImg_" + curentProductID + newNameChar + ".jpg");
                     tempColorsNames.Add(@"colorImg\colorImg_" + curentProductID + newNameChar + ".jpg");
                     newNameChar = (char)(newNameChar + 1);
                 }
