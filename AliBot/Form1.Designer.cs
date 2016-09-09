@@ -37,7 +37,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.TimeOutSetter = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TEST = new System.Windows.Forms.Button();
+            this.ImagesCheckBox = new System.Windows.Forms.CheckBox();
+            this.PriceCheckBox = new System.Windows.Forms.CheckBox();
+            this.titleCheckBox = new System.Windows.Forms.CheckBox();
+            this.FeaturesCheckbox = new System.Windows.Forms.CheckBox();
+            this.discountPriceCheckBox = new System.Windows.Forms.CheckBox();
+            this.InfoCheckbox = new System.Windows.Forms.CheckBox();
+            this.StartId = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.TimeOutSetter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StartId)).BeginInit();
             this.SuspendLayout();
             // 
             // OpenBrowser
@@ -55,7 +66,7 @@
             this.CloseBrowser.BackColor = System.Drawing.Color.DimGray;
             this.CloseBrowser.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.CloseBrowser.ForeColor = System.Drawing.Color.Maroon;
-            this.CloseBrowser.Location = new System.Drawing.Point(44, 221);
+            this.CloseBrowser.Location = new System.Drawing.Point(44, 239);
             this.CloseBrowser.Name = "CloseBrowser";
             this.CloseBrowser.Size = new System.Drawing.Size(132, 54);
             this.CloseBrowser.TabIndex = 1;
@@ -88,7 +99,7 @@
             // StartWork
             // 
             this.StartWork.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.StartWork.Location = new System.Drawing.Point(44, 168);
+            this.StartWork.Location = new System.Drawing.Point(44, 186);
             this.StartWork.Name = "StartWork";
             this.StartWork.Size = new System.Drawing.Size(107, 47);
             this.StartWork.TabIndex = 4;
@@ -139,11 +150,132 @@
             0,
             0});
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(170, 121);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(84, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Задержка в мс";
+            // 
+            // TEST
+            // 
+            this.TEST.Location = new System.Drawing.Point(467, 21);
+            this.TEST.Name = "TEST";
+            this.TEST.Size = new System.Drawing.Size(116, 60);
+            this.TEST.TabIndex = 9;
+            this.TEST.Text = "Открыть Excel";
+            this.TEST.UseVisualStyleBackColor = true;
+            this.TEST.Click += new System.EventHandler(this.TEST_Click);
+            // 
+            // ImagesCheckBox
+            // 
+            this.ImagesCheckBox.AutoSize = true;
+            this.ImagesCheckBox.Location = new System.Drawing.Point(468, 186);
+            this.ImagesCheckBox.Name = "ImagesCheckBox";
+            this.ImagesCheckBox.Size = new System.Drawing.Size(96, 17);
+            this.ImagesCheckBox.TabIndex = 12;
+            this.ImagesCheckBox.Text = "Изображения";
+            this.ImagesCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // PriceCheckBox
+            // 
+            this.PriceCheckBox.AutoSize = true;
+            this.PriceCheckBox.Location = new System.Drawing.Point(467, 140);
+            this.PriceCheckBox.Name = "PriceCheckBox";
+            this.PriceCheckBox.Size = new System.Drawing.Size(52, 17);
+            this.PriceCheckBox.TabIndex = 11;
+            this.PriceCheckBox.Text = "Цена";
+            this.PriceCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // titleCheckBox
+            // 
+            this.titleCheckBox.AutoSize = true;
+            this.titleCheckBox.Location = new System.Drawing.Point(467, 117);
+            this.titleCheckBox.Name = "titleCheckBox";
+            this.titleCheckBox.Size = new System.Drawing.Size(80, 17);
+            this.titleCheckBox.TabIndex = 10;
+            this.titleCheckBox.Text = "Заголовок";
+            this.titleCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // FeaturesCheckbox
+            // 
+            this.FeaturesCheckbox.AutoSize = true;
+            this.FeaturesCheckbox.Location = new System.Drawing.Point(467, 209);
+            this.FeaturesCheckbox.Name = "FeaturesCheckbox";
+            this.FeaturesCheckbox.Size = new System.Drawing.Size(109, 17);
+            this.FeaturesCheckbox.TabIndex = 14;
+            this.FeaturesCheckbox.Text = "Характеристики";
+            this.FeaturesCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // discountPriceCheckBox
+            // 
+            this.discountPriceCheckBox.AutoSize = true;
+            this.discountPriceCheckBox.Location = new System.Drawing.Point(467, 163);
+            this.discountPriceCheckBox.Name = "discountPriceCheckBox";
+            this.discountPriceCheckBox.Size = new System.Drawing.Size(112, 17);
+            this.discountPriceCheckBox.TabIndex = 15;
+            this.discountPriceCheckBox.Text = "Цена со скидкой";
+            this.discountPriceCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // InfoCheckbox
+            // 
+            this.InfoCheckbox.AutoSize = true;
+            this.InfoCheckbox.Location = new System.Drawing.Point(467, 232);
+            this.InfoCheckbox.Name = "InfoCheckbox";
+            this.InfoCheckbox.Size = new System.Drawing.Size(44, 17);
+            this.InfoCheckbox.TabIndex = 16;
+            this.InfoCheckbox.Text = "Info";
+            this.InfoCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // StartId
+            // 
+            this.StartId.Location = new System.Drawing.Point(44, 160);
+            this.StartId.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+            this.StartId.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.StartId.Name = "StartId";
+            this.StartId.Size = new System.Drawing.Size(120, 20);
+            this.StartId.TabIndex = 18;
+            this.StartId.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(170, 162);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 13);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Начальный ID";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(638, 287);
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.ClientSize = new System.Drawing.Size(654, 413);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.StartId);
+            this.Controls.Add(this.InfoCheckbox);
+            this.Controls.Add(this.discountPriceCheckBox);
+            this.Controls.Add(this.FeaturesCheckbox);
+            this.Controls.Add(this.ImagesCheckBox);
+            this.Controls.Add(this.PriceCheckBox);
+            this.Controls.Add(this.titleCheckBox);
+            this.Controls.Add(this.TEST);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.TimeOutSetter);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
@@ -156,6 +288,7 @@
             this.Name = "Form1";
             this.Text = "AliBot";
             ((System.ComponentModel.ISupportInitialize)(this.TimeOutSetter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StartId)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,6 +304,16 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown TimeOutSetter;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button TEST;
+        private System.Windows.Forms.CheckBox ImagesCheckBox;
+        private System.Windows.Forms.CheckBox PriceCheckBox;
+        private System.Windows.Forms.CheckBox titleCheckBox;
+        private System.Windows.Forms.CheckBox FeaturesCheckbox;
+        private System.Windows.Forms.CheckBox discountPriceCheckBox;
+        private System.Windows.Forms.CheckBox InfoCheckbox;
+        private System.Windows.Forms.NumericUpDown StartId;
+        private System.Windows.Forms.Label label4;
     }
 }
 
