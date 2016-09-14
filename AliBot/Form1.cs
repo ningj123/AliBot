@@ -33,16 +33,10 @@ namespace AliBot
         string downloadFolderPath = @"C:\Users\Админ\Downloads\";
         int productId;    
 
-        List<string> colors = new List<string>(); // Лист с цветами 
-        List<string> sizes = new List<string>(); // Лист с Размерами
         List<string> features = new List<string>(); // Лист с характеристиками
         string[,] featuresEndListVal;
-        string[][,] infoStringArr;
-        List<string> listOfType = new List<string>(); //Список Типов данных товара (Размер, цвет, и т.д.)        
-        List<string> OldFileNames = new List<string>(); //Лист со старыми именами файлов
-        List<string> newFileNames = new List<string>(); //Лист с новыми именами файлов
-        List<string> colorImgNames = new List<string>(); // Лист с новыми именами картинок цветов  
-        List<string> OldColorImgNames = new List<string>(); // Лист со старыми именами картинок цветов     
+        string[][,] infoStringArr;     
+        List<string> newFileNames = new List<string>(); //Лист с новыми именами файлов  
 
         /*Все что касается Excel*/
 
@@ -119,148 +113,7 @@ namespace AliBot
 
         private void StartWork_Click(object sender, EventArgs e)
         {           
-
-            timeout = (int)TimeOutSetter.Value;
-            jse = browser as IJavaScriptExecutor;
-            
-            try
-            {
-                
-                urlsFiles = new StreamReader(OPD.FileName);
-                urls = urlsFiles.ReadToEnd().Split('\n');
-                urlsFiles.Close();              
-                browser.Navigate().GoToUrl("http://ru.aliexpress.com/");
-                Thread.Sleep(timeout);
-                foreach (string currentURL in urls) {
-                    
-                    browser.Navigate().GoToUrl(currentURL);
-                    Application.DoEvents();
-                    Thread.Sleep(timeout);
-                    ProductTitle = browser.Title; // Название товара
-
-                    try {
-                        ProductPrice = browser.FindElement(By.Id("j-sku-discount-price")).Text;
-                        if (ProductPrice != null)
-                        {
-                            if (ProductPrice.Contains("-"))
-                            {
-                                ProductPrice = ProductPrice.Split('-')[0];
-                            }
-                            if (ProductPrice.Contains("."))
-                            {
-                                ProductPrice = ProductPrice.Split('.')[0];
-                            }
-                        }
-                    }
-                    catch {
-                        ProductPrice = browser.FindElement(By.Id("j-sku-price")).Text;
-                        if (ProductPrice != null)
-                        {
-                            if (ProductPrice.Contains("-"))
-                            {
-                                ProductPrice = ProductPrice.Split('-')[0];
-                            }
-                            if (ProductPrice.Contains("."))
-                            {
-                                ProductPrice = ProductPrice.Split('.')[0];
-                            }
-                        }
-                    }
-
-                    /*Получаем цвета*/
-                    try
-                    {
-                        var colorsElements = browser.FindElements(By.CssSelector("#j-product-info-sku dl dd ul li a img"));
-                        int colorImgCount = 0;                                         
-                        foreach (var el in colorsElements) {
-                            Thread.Sleep(2000);                            
-                            jse.ExecuteScript(string.Format("var link = document.createElement('a'); link.target = '_blank'; link.download = 'img.jpg'; link.href = '{0}'; link.click();", el.GetAttribute("src")));
-                            if (colorImgCount == 0)
-                            {
-                                string tempName =  HttpUtility.UrlDecode(el.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50.jpg");
-                                OldColorImgNames.Add(tempName);
-                            }
-                            else
-                            {
-                                string tempName = HttpUtility.UrlDecode(string.Format(el.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50 ({0}).jpg", colorImgCount));
-                                OldColorImgNames.Add(tempName);
-                            }
-                            colorImgCount += 1;                        
-                        }
-                        colors = renameColorImages(OldColorImgNames);
-
-                    }
-                    catch {
-                        var colorsElements = browser.FindElements(By.CssSelector("#j-sku-list-1 li a"));
-                        foreach (var el in colorsElements) {
-                            colors.Add(el.GetAttribute("title"));                            
-                        }
-                    }
-                    /*Получаем цвета*/
-
-                    /*Получаем размеры*/
-                    var sizesObjects = browser.FindElements(By.CssSelector("#j-sku-list-2 li a span"));
-
-                    foreach (var sizeVal in sizesObjects)
-                    {
-                        sizes.Add(sizeVal.Text);                                        
-                    }
-                    /*Получаем размеры*/
-
-                    /*Получаем характеристики*/
-                    var featuresObjeectsTitle = browser.FindElements(By.CssSelector("span.propery-title"));
-                    var featuresObjeectsDes = browser.FindElements(By.CssSelector("span.propery-des"));
-                    string[,] featuresEndValues = new string[featuresObjeectsTitle.Count, 2];
-
-                    for (int i = 0; i < featuresObjeectsTitle.Count; i++)
-                    {                        
-                        featuresEndValues[i, 0] = featuresObjeectsTitle[i].Text;
-                        featuresEndValues[i, 1] = featuresObjeectsDes[i].Text;                         
-                    }
-                    /*Получаем характеристики*/
-
-                    /* Качаем изображения */
-                    IWebElement imageToNextPage = browser.FindElement(By.CssSelector(".ui-image-viewer a.ui-magnifier-glass"));
-                    browser.Navigate().GoToUrl(string.Format(imageToNextPage.GetAttribute("href")));
-                    Application.DoEvents();
-                    Thread.Sleep(timeout);
-
-                    var LIimagesForSave = browser.FindElements(By.CssSelector("ul.new-img-border li a img"));
-                    //var LIimagesForSave = browser.FindElements(By.CssSelector("a.ui-image-viewer-thumb-frame img"));
-                    int imageCount = 0;
-                    foreach (var str in LIimagesForSave)
-                    {
-                        Thread.Sleep(4000);                        
-                        jse.ExecuteScript(string.Format("var link = document.createElement('a'); link.target = '_blank'; link.download = 'img.jpg'; link.href = '{0}'; link.click();", str.GetAttribute("src")));
-                        if (imageCount == 0)
-                        {
-                            OldFileNames.Add(str.GetAttribute("src").Split('/').Last());                            
-                        }
-                        else {
-                            OldFileNames.Add(str.GetAttribute("src").Split('/').Last().Split('.')[0] + " (" + imageCount + ")" + ".jpg");
-                        }                        
-                        imageCount += 1;
-                    }
-                    /* Качаем изображения */
-
-                    //Thread.Sleep(timeout);
-                    //newFileNames = RenameImages(OldFileNames);                    
-                    //PrintingToExcel(ProductTitle, ProductPrice, sizes, colors, featuresEndValues, newFileNames);
-                    //sizes.Clear();
-                    //features.Clear();
-                    //OldFileNames.Clear();
-                    //newFileNames.Clear();
-                    //OldColorImgNames.Clear();
-                    //colors.Clear();
-                }
-            }
-            catch (Exception ex)
-            {
-                StreamWriter SW = new StreamWriter(downloadFolderPath + "log.txt");
-                SW.WriteLine("Ошибка основного цикла " + " - " + ex.Message + Environment.NewLine);
-                SW.Close();                
-            }
-            
+   
         }
 
         public void PrintingToExcel(string productTitle, string productPrice, string discountProductPrice, string[,] features, string[][,] allInfo, List<string> productImg) {
@@ -315,13 +168,15 @@ namespace AliBot
             if (allInfo != null) {
                 foreach (string[,] strArr in allInfo) {
                     for (int d = 0; d < strArr.GetLength(1); d++) {
-                        cells = workSheetOPTIONSVALUES.Range["A" + lastInfoRow, "A" + lastInfoRow];
-                        cells.Value2 = productId.ToString();
-                        cells = workSheetOPTIONSVALUES.Range["B" + lastInfoRow, "B" + lastInfoRow];
-                        cells.Value2 = strArr[0,0].ToString();
-                        cells = workSheetOPTIONSVALUES.Range["C" + lastInfoRow, "C" + lastInfoRow];
-                        cells.Value2 = strArr[1,d].ToString();
-                        lastInfoRow += 1;
+                        if (strArr[0, 0] != null & strArr[1, d] != null) {
+                            cells = workSheetOPTIONSVALUES.Range["A" + lastInfoRow, "A" + lastInfoRow];
+                            cells.Value2 = productId.ToString();
+                            cells = workSheetOPTIONSVALUES.Range["B" + lastInfoRow, "B" + lastInfoRow];
+                            cells.Value2 = strArr[0, 0].ToString();
+                            cells = workSheetOPTIONSVALUES.Range["C" + lastInfoRow, "C" + lastInfoRow];
+                            cells.Value2 = strArr[1, d].ToString();
+                            lastInfoRow += 1;
+                        }                        
                     }
                 }
             }
@@ -366,8 +221,14 @@ namespace AliBot
         }
 
         private void TEST_Click(object sender, EventArgs e)
-        {                
-                urlsFiles = new StreamReader(OPD.FileName);
+        {
+                timeout = (int)TimeOutSetter.Value;
+                try {
+                    urlsFiles = new StreamReader(OPD.FileName);
+                }
+                catch (Exception ex) {
+                    MessageBox.Show(ex.Message, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 urls = urlsFiles.ReadToEnd().Split('\n');
                 urlsFiles.Close();
                 browser.Navigate().GoToUrl("http://ru.aliexpress.com/");
@@ -469,12 +330,13 @@ namespace AliBot
         }
 
         List<string> getProductImages() {
-            Thread.Sleep(2500);
+            Thread.Sleep(timeout);
             IWebElement imageToNextPage = browser.FindElement(By.CssSelector(".ui-image-viewer a.ui-magnifier-glass"));
             browser.Navigate().GoToUrl(string.Format(imageToNextPage.GetAttribute("href")));
             Application.DoEvents();
             IJavaScriptExecutor newJSE = browser as IJavaScriptExecutor;
             List<string> tempFileNames = new List<string>();
+            List<string> OldFileNames = new List<string>(); //Лист со старыми именами файлов
             List<IWebElement> LIimagesForSave = browser.FindElements(By.CssSelector("ul.new-img-border li a img")).ToList();            
             int imageCount = 0;            
             if (LIimagesForSave.Count > 0)
@@ -508,63 +370,9 @@ namespace AliBot
             {
                 tempFileNames = null;
             }
+            OldFileNames.Clear();
             return tempFileNames;
-        }
-
-        List<string> getColors() {
-            List<string> tempColorsNames = new List<string>();
-            List<IWebElement> colorsElementsIMG = browser.FindElements(By.CssSelector("#j-product-info-sku dl dd ul li a img")).ToList();
-            List<IWebElement> colorsElementsSpan = browser.FindElements(By.CssSelector("#j-product-info-sku dl dd ul li a span")).ToList();
-            IJavaScriptExecutor newjse = browser as IJavaScriptExecutor;
-            int colorImgCount = 0;
-            if (colorsElementsIMG.Count > 0)
-            {
-                foreach (var el in colorsElementsIMG)
-                {
-                    Thread.Sleep(1000);
-                    newjse.ExecuteScript(string.Format("var link = document.createElement('a'); link.target = '_blank'; link.download = 'img.jpg'; link.href = '{0}'; link.click();", el.GetAttribute("src")));
-                    if (colorImgCount == 0)
-                    {
-                        string tempName = HttpUtility.UrlDecode(el.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50.jpg");
-                        OldColorImgNames.Add(tempName);
-                    }
-                    else
-                    {
-                        string tempName = HttpUtility.UrlDecode(string.Format(el.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50 ({0}).jpg", colorImgCount));
-                        OldColorImgNames.Add(tempName);
-                    }
-                    colorImgCount += 1;
-                }
-                Thread.Sleep(timeout);
-                char newNameChar = 'A';
-                foreach (string el in OldColorImgNames)
-                {                    
-                    File.Move(downloadFolderPath + el, downloadFolderPath + @"colorImg\" + "colorImg_" + productId + newNameChar + ".jpg");
-                    tempColorsNames.Add(@"colorImg\colorImg_" + productId + newNameChar + ".jpg");
-                    newNameChar = (char)(newNameChar + 1);
-                }
-            }
-            else if (colorsElementsSpan.Count > 0) {
-                foreach (IWebElement el in colorsElementsSpan) {
-                    tempColorsNames.Add(el.GetAttribute("title"));
-                }                
-            }
-            return tempColorsNames;       
-        }
-
-        List<string> getSizes() {
-            List<string> tempSizesList = new List<string>();
-            List<IWebElement> sizesObjects = browser.FindElements(By.CssSelector("#j-sku-list-2 li a span")).ToList();
-            if (sizesObjects.Count > 0)
-            {
-                foreach (var sizeVal in sizesObjects)
-                {
-                    tempSizesList.Add(sizeVal.Text);
-                }
-            }
-            else tempSizesList = null;
-            return tempSizesList;
-        }
+        }        
 
         string[][,] getAllInfo() {
             List<IWebElement> infoParent = browser.FindElements(By.Id("j-product-info-sku")).ToList();
@@ -597,23 +405,24 @@ namespace AliBot
                             List<string> oldFileNames = new List<string>();
                             List<string> tempNewFiles = new List<string>();
                             int colorImgCount = 0;
-                            foreach (IWebElement ImgEl in infoImg) {                                
+                            foreach (IWebElement ImgEl in infoImg) {
+                                Thread.Sleep(timeout);
                                 JSEcolorUmg.ExecuteScript(string.Format("var link = document.createElement('a'); link.target = '_blank'; link.download = 'img.jpg'; link.href = '{0}'; link.click();", ImgEl.GetAttribute("src")));
-                                Thread.Sleep(2000);
+                                Thread.Sleep(timeout);
                                 if (colorImgCount == 0)
                                 {
-                                    string tempName = HttpUtility.UrlDecode(el.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50.jpg");
+                                    string tempName = HttpUtility.UrlDecode(ImgEl.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50.jpg");
                                     oldFileNames.Add(tempName);
                                 }
                                 else
                                 {
-                                    string tempName = HttpUtility.UrlDecode(string.Format(el.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50 ({0}).jpg", colorImgCount));
+                                    string tempName = HttpUtility.UrlDecode(string.Format(ImgEl.GetAttribute("src").ToString().Split('/').Last().Split('.')[0] + ".jpg_50x50 ({0}).jpg", colorImgCount));
                                     oldFileNames.Add(tempName);
                                 }
-                                Thread.Sleep(1000);
+                                Thread.Sleep(timeout);
                                 colorImgCount += 1;
                             }
-                            tempNewFiles = renameColorImages(OldColorImgNames);
+                            tempNewFiles = renameColorImages(oldFileNames);
                             for (int h = 0; h < tempNewFiles.Count; h++) {
                                 endValuesResult[counter][1, h] = tempNewFiles[h];
                             }
@@ -627,7 +436,7 @@ namespace AliBot
             }
             else {
                 return null;
-            }
+            }            
             return endValuesResult;
         }
 
