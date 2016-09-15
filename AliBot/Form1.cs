@@ -17,8 +17,7 @@ namespace AliBot
         IWebDriver browser;       
         string filePath;
         public int timeout;
-        public OpenFileDialog OPD = new OpenFileDialog();
-        ChromeOptions chromeOptions;
+        public OpenFileDialog OPD = new OpenFileDialog();        
         StreamReader urlsFiles;
         string[] urls;
         string ProductTitle;
@@ -92,6 +91,8 @@ namespace AliBot
                 lastOptionsRow = 1;
                 lastInfoRow = 1;
                 productId = (int)StartId.Value - 1;
+                StartWork.Enabled = true;
+                ToolsStatus.Image = Properties.Resources.done;
             }
             catch (Exception ex) {
                 writeLog(ex.Message);
@@ -108,13 +109,13 @@ namespace AliBot
             try
             {
                 browser.Quit();
-                ExApp.Quit();
-                this.Close();
+                ExApp.Quit();                
             }
             catch (Exception ex){
                 writeLog(ex.Message);
                 MessageBox.Show("Ошибка", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+            this.Close();
         }
 
         /// <summary>
@@ -597,14 +598,24 @@ namespace AliBot
             {
                 filePath = OPD.FileName;
                 label1.Text = filePath;
+                button1.Enabled = true;
+                URLSimgStatus.Image = Properties.Resources.done;
             }
         }
 
+        /// <summary>
+        /// Открывает диалог выбора папки куда по умолчанию Chrome сохраняет скаченные изображения.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog FBD = new FolderBrowserDialog();
             if (FBD.ShowDialog() == DialogResult.OK) {
                 downloadFolderPath = FBD.SelectedPath;
+                downFolderPathLabel.Text = FBD.SelectedPath;
+                OpenBrowser.Enabled = true;
+                DownloadFolderStatus.Image = Properties.Resources.done;
             }
         }
     }

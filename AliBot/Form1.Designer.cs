@@ -34,7 +34,7 @@
             this.FileSelectorURLs = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.StartWork = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.downFolderPathLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.TimeOutSetter = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,13 +47,20 @@
             this.InfoCheckbox = new System.Windows.Forms.CheckBox();
             this.StartId = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.URLSimgStatus = new System.Windows.Forms.PictureBox();
+            this.DownloadFolderStatus = new System.Windows.Forms.PictureBox();
+            this.ToolsStatus = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.TimeOutSetter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartId)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.URLSimgStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DownloadFolderStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ToolsStatus)).BeginInit();
             this.SuspendLayout();
             // 
             // OpenBrowser
             // 
-            this.OpenBrowser.Location = new System.Drawing.Point(44, 21);
+            this.OpenBrowser.Enabled = false;
+            this.OpenBrowser.Location = new System.Drawing.Point(44, 79);
             this.OpenBrowser.Name = "OpenBrowser";
             this.OpenBrowser.Size = new System.Drawing.Size(132, 23);
             this.OpenBrowser.TabIndex = 0;
@@ -79,7 +86,7 @@
             this.FileSelectorURLs.BackColor = System.Drawing.Color.DimGray;
             this.FileSelectorURLs.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.FileSelectorURLs.ForeColor = System.Drawing.Color.Maroon;
-            this.FileSelectorURLs.Location = new System.Drawing.Point(44, 50);
+            this.FileSelectorURLs.Location = new System.Drawing.Point(44, 21);
             this.FileSelectorURLs.Name = "FileSelectorURLs";
             this.FileSelectorURLs.Size = new System.Drawing.Size(132, 23);
             this.FileSelectorURLs.TabIndex = 2;
@@ -90,7 +97,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(185, 54);
+            this.label1.Location = new System.Drawing.Point(185, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(186, 13);
             this.label1.TabIndex = 3;
@@ -99,6 +106,7 @@
             // StartWork
             // 
             this.StartWork.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.StartWork.Enabled = false;
             this.StartWork.Location = new System.Drawing.Point(44, 195);
             this.StartWork.Name = "StartWork";
             this.StartWork.Size = new System.Drawing.Size(132, 67);
@@ -107,21 +115,22 @@
             this.StartWork.UseVisualStyleBackColor = false;
             this.StartWork.Click += new System.EventHandler(this.StartWork_Click);
             // 
-            // label2
+            // downFolderPathLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(185, 84);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(277, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Выбрать папку в которую сохраняются изображения";
+            this.downFolderPathLabel.AutoSize = true;
+            this.downFolderPathLabel.Location = new System.Drawing.Point(185, 55);
+            this.downFolderPathLabel.Name = "downFolderPathLabel";
+            this.downFolderPathLabel.Size = new System.Drawing.Size(277, 13);
+            this.downFolderPathLabel.TabIndex = 6;
+            this.downFolderPathLabel.Text = "Выбрать папку в которую сохраняются изображения";
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.DimGray;
+            this.button1.Enabled = false;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.ForeColor = System.Drawing.Color.Maroon;
-            this.button1.Location = new System.Drawing.Point(44, 79);
+            this.button1.Location = new System.Drawing.Point(44, 50);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(132, 23);
             this.button1.TabIndex = 5;
@@ -166,7 +175,7 @@
             this.TEST.Name = "TEST";
             this.TEST.Size = new System.Drawing.Size(132, 60);
             this.TEST.TabIndex = 9;
-            this.TEST.Text = "о программе";
+            this.TEST.Text = "О программе";
             this.TEST.UseVisualStyleBackColor = true;
             this.TEST.Click += new System.EventHandler(this.About_Click);
             // 
@@ -261,12 +270,45 @@
             this.label4.TabIndex = 19;
             this.label4.Text = "Начальный ID";
             // 
+            // URLSimgStatus
+            // 
+            this.URLSimgStatus.Image = global::AliBot.Properties.Resources.quit;
+            this.URLSimgStatus.Location = new System.Drawing.Point(12, 18);
+            this.URLSimgStatus.Name = "URLSimgStatus";
+            this.URLSimgStatus.Size = new System.Drawing.Size(25, 26);
+            this.URLSimgStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.URLSimgStatus.TabIndex = 20;
+            this.URLSimgStatus.TabStop = false;
+            // 
+            // DownloadFolderStatus
+            // 
+            this.DownloadFolderStatus.Image = global::AliBot.Properties.Resources.quit;
+            this.DownloadFolderStatus.Location = new System.Drawing.Point(13, 47);
+            this.DownloadFolderStatus.Name = "DownloadFolderStatus";
+            this.DownloadFolderStatus.Size = new System.Drawing.Size(25, 26);
+            this.DownloadFolderStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.DownloadFolderStatus.TabIndex = 21;
+            this.DownloadFolderStatus.TabStop = false;
+            // 
+            // ToolsStatus
+            // 
+            this.ToolsStatus.Image = global::AliBot.Properties.Resources.quit;
+            this.ToolsStatus.Location = new System.Drawing.Point(13, 76);
+            this.ToolsStatus.Name = "ToolsStatus";
+            this.ToolsStatus.Size = new System.Drawing.Size(25, 26);
+            this.ToolsStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.ToolsStatus.TabIndex = 22;
+            this.ToolsStatus.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(619, 361);
+            this.Controls.Add(this.ToolsStatus);
+            this.Controls.Add(this.DownloadFolderStatus);
+            this.Controls.Add(this.URLSimgStatus);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.StartId);
             this.Controls.Add(this.InfoCheckbox);
@@ -278,7 +320,7 @@
             this.Controls.Add(this.TEST);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TimeOutSetter);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.downFolderPathLabel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.StartWork);
             this.Controls.Add(this.label1);
@@ -290,6 +332,9 @@
             this.Text = "AliBot";
             ((System.ComponentModel.ISupportInitialize)(this.TimeOutSetter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartId)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.URLSimgStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DownloadFolderStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ToolsStatus)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -302,7 +347,7 @@
         private System.Windows.Forms.Button FileSelectorURLs;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button StartWork;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label downFolderPathLabel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown TimeOutSetter;
         private System.Windows.Forms.Label label3;
@@ -315,6 +360,9 @@
         private System.Windows.Forms.CheckBox InfoCheckbox;
         private System.Windows.Forms.NumericUpDown StartId;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox URLSimgStatus;
+        private System.Windows.Forms.PictureBox DownloadFolderStatus;
+        private System.Windows.Forms.PictureBox ToolsStatus;
     }
 }
 
