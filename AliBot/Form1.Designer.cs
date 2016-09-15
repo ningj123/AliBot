@@ -55,9 +55,9 @@
             // 
             this.OpenBrowser.Location = new System.Drawing.Point(44, 21);
             this.OpenBrowser.Name = "OpenBrowser";
-            this.OpenBrowser.Size = new System.Drawing.Size(107, 23);
+            this.OpenBrowser.Size = new System.Drawing.Size(132, 23);
             this.OpenBrowser.TabIndex = 0;
-            this.OpenBrowser.Text = "Открыть Chrome";
+            this.OpenBrowser.Text = "Открыть Инструменты";
             this.OpenBrowser.UseVisualStyleBackColor = true;
             this.OpenBrowser.Click += new System.EventHandler(this.OpenBrowser_Click);
             // 
@@ -66,7 +66,7 @@
             this.CloseBrowser.BackColor = System.Drawing.Color.DimGray;
             this.CloseBrowser.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.CloseBrowser.ForeColor = System.Drawing.Color.Maroon;
-            this.CloseBrowser.Location = new System.Drawing.Point(44, 239);
+            this.CloseBrowser.Location = new System.Drawing.Point(44, 283);
             this.CloseBrowser.Name = "CloseBrowser";
             this.CloseBrowser.Size = new System.Drawing.Size(132, 54);
             this.CloseBrowser.TabIndex = 1;
@@ -81,7 +81,7 @@
             this.FileSelectorURLs.ForeColor = System.Drawing.Color.Maroon;
             this.FileSelectorURLs.Location = new System.Drawing.Point(44, 50);
             this.FileSelectorURLs.Name = "FileSelectorURLs";
-            this.FileSelectorURLs.Size = new System.Drawing.Size(107, 23);
+            this.FileSelectorURLs.Size = new System.Drawing.Size(132, 23);
             this.FileSelectorURLs.TabIndex = 2;
             this.FileSelectorURLs.Text = "Выбрать файл\r\n";
             this.FileSelectorURLs.UseVisualStyleBackColor = false;
@@ -90,7 +90,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(157, 55);
+            this.label1.Location = new System.Drawing.Point(185, 54);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(186, 13);
             this.label1.TabIndex = 3;
@@ -99,22 +99,22 @@
             // StartWork
             // 
             this.StartWork.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.StartWork.Location = new System.Drawing.Point(44, 186);
+            this.StartWork.Location = new System.Drawing.Point(44, 195);
             this.StartWork.Name = "StartWork";
-            this.StartWork.Size = new System.Drawing.Size(107, 47);
+            this.StartWork.Size = new System.Drawing.Size(132, 67);
             this.StartWork.TabIndex = 4;
-            this.StartWork.Text = "Сбор информации";
+            this.StartWork.Text = "Начать сбор информации";
             this.StartWork.UseVisualStyleBackColor = false;
             this.StartWork.Click += new System.EventHandler(this.StartWork_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(157, 84);
+            this.label2.Location = new System.Drawing.Point(185, 84);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(229, 13);
+            this.label2.Size = new System.Drawing.Size(277, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Выбрать файл для сохранения результатов";
+            this.label2.Text = "Выбрать папку в которую сохраняются изображения";
             // 
             // button1
             // 
@@ -123,10 +123,11 @@
             this.button1.ForeColor = System.Drawing.Color.Maroon;
             this.button1.Location = new System.Drawing.Point(44, 79);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(107, 23);
+            this.button1.Size = new System.Drawing.Size(132, 23);
             this.button1.TabIndex = 5;
             this.button1.Text = "Выбрать файл\r\n";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // TimeOutSetter
             // 
@@ -135,7 +136,7 @@
             0,
             0,
             0});
-            this.TimeOutSetter.Location = new System.Drawing.Point(44, 119);
+            this.TimeOutSetter.Location = new System.Drawing.Point(44, 114);
             this.TimeOutSetter.Maximum = new decimal(new int[] {
             15000,
             0,
@@ -153,7 +154,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(170, 121);
+            this.label3.Location = new System.Drawing.Point(170, 116);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 13);
             this.label3.TabIndex = 8;
@@ -161,18 +162,18 @@
             // 
             // TEST
             // 
-            this.TEST.Location = new System.Drawing.Point(467, 21);
+            this.TEST.Location = new System.Drawing.Point(449, 277);
             this.TEST.Name = "TEST";
-            this.TEST.Size = new System.Drawing.Size(116, 60);
+            this.TEST.Size = new System.Drawing.Size(132, 60);
             this.TEST.TabIndex = 9;
-            this.TEST.Text = "Открыть Excel";
+            this.TEST.Text = "о программе";
             this.TEST.UseVisualStyleBackColor = true;
-            this.TEST.Click += new System.EventHandler(this.TEST_Click);
+            this.TEST.Click += new System.EventHandler(this.About_Click);
             // 
             // ImagesCheckBox
             // 
             this.ImagesCheckBox.AutoSize = true;
-            this.ImagesCheckBox.Location = new System.Drawing.Point(468, 186);
+            this.ImagesCheckBox.Location = new System.Drawing.Point(485, 96);
             this.ImagesCheckBox.Name = "ImagesCheckBox";
             this.ImagesCheckBox.Size = new System.Drawing.Size(96, 17);
             this.ImagesCheckBox.TabIndex = 12;
@@ -182,7 +183,7 @@
             // PriceCheckBox
             // 
             this.PriceCheckBox.AutoSize = true;
-            this.PriceCheckBox.Location = new System.Drawing.Point(467, 140);
+            this.PriceCheckBox.Location = new System.Drawing.Point(484, 50);
             this.PriceCheckBox.Name = "PriceCheckBox";
             this.PriceCheckBox.Size = new System.Drawing.Size(52, 17);
             this.PriceCheckBox.TabIndex = 11;
@@ -192,7 +193,7 @@
             // titleCheckBox
             // 
             this.titleCheckBox.AutoSize = true;
-            this.titleCheckBox.Location = new System.Drawing.Point(467, 117);
+            this.titleCheckBox.Location = new System.Drawing.Point(484, 27);
             this.titleCheckBox.Name = "titleCheckBox";
             this.titleCheckBox.Size = new System.Drawing.Size(80, 17);
             this.titleCheckBox.TabIndex = 10;
@@ -202,7 +203,7 @@
             // FeaturesCheckbox
             // 
             this.FeaturesCheckbox.AutoSize = true;
-            this.FeaturesCheckbox.Location = new System.Drawing.Point(467, 209);
+            this.FeaturesCheckbox.Location = new System.Drawing.Point(484, 119);
             this.FeaturesCheckbox.Name = "FeaturesCheckbox";
             this.FeaturesCheckbox.Size = new System.Drawing.Size(109, 17);
             this.FeaturesCheckbox.TabIndex = 14;
@@ -212,7 +213,7 @@
             // discountPriceCheckBox
             // 
             this.discountPriceCheckBox.AutoSize = true;
-            this.discountPriceCheckBox.Location = new System.Drawing.Point(467, 163);
+            this.discountPriceCheckBox.Location = new System.Drawing.Point(484, 73);
             this.discountPriceCheckBox.Name = "discountPriceCheckBox";
             this.discountPriceCheckBox.Size = new System.Drawing.Size(112, 17);
             this.discountPriceCheckBox.TabIndex = 15;
@@ -222,7 +223,7 @@
             // InfoCheckbox
             // 
             this.InfoCheckbox.AutoSize = true;
-            this.InfoCheckbox.Location = new System.Drawing.Point(467, 232);
+            this.InfoCheckbox.Location = new System.Drawing.Point(484, 142);
             this.InfoCheckbox.Name = "InfoCheckbox";
             this.InfoCheckbox.Size = new System.Drawing.Size(44, 17);
             this.InfoCheckbox.TabIndex = 16;
@@ -231,7 +232,7 @@
             // 
             // StartId
             // 
-            this.StartId.Location = new System.Drawing.Point(44, 160);
+            this.StartId.Location = new System.Drawing.Point(44, 155);
             this.StartId.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -254,7 +255,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(170, 162);
+            this.label4.Location = new System.Drawing.Point(170, 157);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(78, 13);
             this.label4.TabIndex = 19;
@@ -265,7 +266,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(654, 413);
+            this.ClientSize = new System.Drawing.Size(619, 361);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.StartId);
             this.Controls.Add(this.InfoCheckbox);
