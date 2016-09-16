@@ -182,6 +182,40 @@ namespace AliBot
         }
 
         /// <summary>
+        /// Открывает диалог выбора файла со списком URL адресов товаров,
+        /// которые нужно спарсить.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FileSelectorURLs_Click(object sender, EventArgs e)
+        {
+            if (OPD.ShowDialog() == DialogResult.OK)
+            {
+                filePath = OPD.FileName;
+                label1.Text = filePath;
+                button1.Enabled = true;
+                URLSimgStatus.Image = Properties.Resources.done;
+            }
+        }
+
+        /// <summary>
+        /// Открывает диалог выбора папки куда по умолчанию Chrome сохраняет скаченные изображения.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog FBD = new FolderBrowserDialog();
+            if (FBD.ShowDialog() == DialogResult.OK)
+            {
+                downloadFolderPath = FBD.SelectedPath;
+                downFolderPathLabel.Text = FBD.SelectedPath;
+                OpenBrowser.Enabled = true;
+                DownloadFolderStatus.Image = Properties.Resources.done;
+            }
+        }
+
+        /// <summary>
         /// Запись данных в таблицы Excel.
         /// </summary>
         /// <param name="productTitle"></param>
@@ -192,25 +226,26 @@ namespace AliBot
         /// <param name="productImg"></param>
         public void PrintingToExcel(string productTitle, string productPrice, string discountProductPrice, string[,] features, string[][,] allInfo, List<string> productImg) {
             Application.DoEvents();
-            /*Первая страница*/            
+            /*Первая страница*/        
+               
             cells = workSheetPRODUCTS.Range["A" + lastMainRow, "A" + lastMainRow];
             cells.Value2 = productId.ToString();
-            if (productTitle != null) {
+            if (productTitle != null & titleCheckBox.Checked) {
                 cells = workSheetPRODUCTS.Range["B" + lastMainRow, "B" + lastMainRow];
                 cells.Value2 = productTitle.ToString();
             }
-            if (productPrice != null) {
+            if (productPrice != null & PriceCheckBox.Checked) {
                 cells = workSheetPRODUCTS.Range["C" + lastMainRow, "C" + lastMainRow];
                 cells.Value2 = productPrice.ToString();
             }
-            if (discountProductPrice != null) {
+            if (discountProductPrice != null & discountPriceCheckBox.Checked) {
                 cells = workSheetPRODUCTS.Range["D" + lastMainRow, "D" + lastMainRow];
                 cells.Value2 = discountProductPrice.ToString();
             }
             /*Первая страница*/
 
             /*Вторая страница*/
-            if (newFileNames != null) {
+            if (newFileNames != null & ImagesCheckBox.Checked) {
                 if (newFileNames.Count > 0) { 
                     foreach (string str in newFileNames)
                     {
@@ -227,7 +262,7 @@ namespace AliBot
             /*Вторая страница*/
 
             /*Третья страница*/
-            if (allInfo != null) {
+            if (allInfo != null & InfoCheckbox.Checked) {
                 foreach (string[,] strArr in allInfo) {                    
                     cells = workSheetOPTIONS.Range["A" + lastOptionsRow, "A" + lastOptionsRow];
                     cells.Value2 = productId.ToString();
@@ -239,7 +274,7 @@ namespace AliBot
             /*Третья страница*/
 
             /*Четвертая страница*/
-            if (allInfo != null) {
+            if (allInfo != null & InfoCheckbox.Checked) {
                 foreach (string[,] strArr in allInfo) {
                     for (int d = 0; d < strArr.GetLength(1); d++) {
                         if (strArr[0, 0] != null & strArr[1, d] != null) {
@@ -257,59 +292,25 @@ namespace AliBot
             /*Четвертая страница*/
 
             /*Пятая страница*/
-            for (int i = 0; i < features.Length/2; i++) {
-                cells = workSheetATTRIBUTES.Range["A" + lastAttributesRow, "A" + lastAttributesRow];
-                cells.Value2 = productId.ToString();
-                cells = workSheetATTRIBUTES.Range["B" + lastAttributesRow, "B" + lastAttributesRow];
-                cells.Value2 = "Характеристики";
-                cells = workSheetATTRIBUTES.Range["C" + lastAttributesRow, "C" + lastAttributesRow];
-                cells.Value2 = features[i,0];
-                cells = workSheetATTRIBUTES.Range["D" + lastAttributesRow, "D" + lastAttributesRow];
-                cells.Value2 = features[i, 1];
-                lastAttributesRow += 1;
+            if (features != null & FeaturesCheckbox.Checked)
+            {
+                for (int i = 0; i < features.Length / 2; i++)
+                {
+                    cells = workSheetATTRIBUTES.Range["A" + lastAttributesRow, "A" + lastAttributesRow];
+                    cells.Value2 = productId.ToString();
+                    cells = workSheetATTRIBUTES.Range["B" + lastAttributesRow, "B" + lastAttributesRow];
+                    cells.Value2 = "Характеристики";
+                    cells = workSheetATTRIBUTES.Range["C" + lastAttributesRow, "C" + lastAttributesRow];
+                    cells.Value2 = features[i, 0];
+                    cells = workSheetATTRIBUTES.Range["D" + lastAttributesRow, "D" + lastAttributesRow];
+                    cells.Value2 = features[i, 1];
+                    lastAttributesRow += 1;
+                }
             }
             /*Пятая страница*/
 
         }
-
-        /// <summary>
-        /// Переименовать загруженные картинки и после этого переместить их
-        /// в папку для скаченных картинок.
-        /// </summary>
-        /// <param name="oldImagesNames"></param>
-        /// <returns></returns>
-        public List<string> RenameImages(List<string> oldImagesNames) {
-            Application.DoEvents();
-            char charFileName = 'A';
-            try
-            {
-                foreach (string str in oldImagesNames)
-                {
-                    Thread.Sleep(2000);
-                    File.Move(downloadFolderPath + str, downloadFolderPath + "img/" + productId + charFileName + ".jpg");
-                    newFileNames.Add((productId.ToString() + (char)charFileName + ".jpg").ToString());
-                    charFileName += (char)1;
-                }
-                return newFileNames;
-            }
-            catch (Exception ex) {                
-                writeLog(ex.Message);
-                return null;
-            }          
-            
-        }
-
-        /// <summary>
-        /// Показывает всплывающее окно "О нас".
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void About_Click(object sender, EventArgs e)
-        {
-            AboutUs AU = new AboutUs();
-            AU.ShowDialog();              
-        }
-
+              
         /// <summary>
         /// Получить заголовок продукта.
         /// </summary>
@@ -422,7 +423,7 @@ namespace AliBot
                 Application.DoEvents();
                 IJavaScriptExecutor newJSE = browser as IJavaScriptExecutor;
                 List<string> tempFileNames = new List<string>();
-                List<string> OldFileNames = new List<string>(); //Лист со старыми именами файлов
+                List<string> OldFileNames = new List<string>(); 
                 List<IWebElement> LIimagesForSave = browser.FindElements(By.CssSelector("ul.new-img-border li a img")).ToList();
                 int imageCount = 0;
                 if (LIimagesForSave.Count > 0)
@@ -447,7 +448,7 @@ namespace AliBot
 
                     foreach (string str in OldFileNames)
                     {
-                        File.Move(downloadFolderPath + str, downloadFolderPath + "img/" + productId + charFileName + ".jpg");
+                        File.Move(downloadFolderPath + @"\" + str, downloadFolderPath + @"\" + @"img\" + productId + charFileName + ".jpg");
                         tempFileNames.Add((productId.ToString() + (char)charFileName + ".jpg").ToString());
                         charFileName += (char)1;
                     }
@@ -537,6 +538,35 @@ namespace AliBot
         }
 
         /// <summary>
+        /// Переименовать загруженные картинки и после этого переместить их
+        /// в папку для скаченных картинок.
+        /// </summary>
+        /// <param name="oldImagesNames"></param>
+        /// <returns></returns>
+        public List<string> RenameImages(List<string> oldImagesNames)
+        {
+            Application.DoEvents();
+            char charFileName = 'A';
+            try
+            {
+                foreach (string str in oldImagesNames)
+                {
+                    Thread.Sleep(2000);
+                    File.Move(downloadFolderPath + str, downloadFolderPath + "img/" + productId + charFileName + ".jpg");
+                    newFileNames.Add((productId.ToString() + (char)charFileName + ".jpg").ToString());
+                    charFileName += (char)1;
+                }
+                return newFileNames;
+            }
+            catch (Exception ex)
+            {
+                writeLog(ex.Message);
+                return null;
+            }
+
+        }
+
+        /// <summary>
         /// Переименовать изображения из информации о продукте. т.е. если в информации о продукте вместо Цвета
         /// изображения, то после загрузки этих изображений на компьютер вызывается данный метод, для переименования
         /// и перемещения товара в соответствующую папку.
@@ -554,7 +584,7 @@ namespace AliBot
                 foreach (string el in OldNames)
                 {
                     Thread.Sleep(100);
-                    File.Move(downloadFolderPath + el, downloadFolderPath + @"colorImg\" + "colorImg_" + productId + newNameChar + ".jpg");
+                    File.Move(downloadFolderPath + @"\" + el, downloadFolderPath + @"\" + @"ShareImg\" + "colorImg_" + productId + newNameChar + ".jpg");
                     tempColorsNames.Add(@"colorImg\colorImg_" + productId + newNameChar + ".jpg");
                     newNameChar = (char)(newNameChar + 1);
                 }
@@ -569,13 +599,24 @@ namespace AliBot
         }
 
         /// <summary>
+        /// Показывает всплывающее окно "О нас".
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void About_Click(object sender, EventArgs e)
+        {
+            AboutUs AU = new AboutUs();
+            AU.ShowDialog();
+        }
+
+        /// <summary>
         /// Записать данные в лог. При ошибках.
         /// </summary>
         /// <param name="message"></param>
         public void writeLog(string message) {
             try
             {
-                using (StreamWriter logWriter = new StreamWriter("/Log.txt", true))
+                using (StreamWriter logWriter = new StreamWriter(Application.StartupPath + @"\Log.txt", true))
                 {
                     logWriter.WriteLine(string.Format("{0} ID товара: {1}; Ошибка: {2}", DateTime.Now, productId, message));
                     logWriter.Close();
@@ -584,39 +625,6 @@ namespace AliBot
             catch {
                 MessageBox.Show("Ошибка записи файла Log.txt", "Ошибка");
             }
-        }
-
-        /// <summary>
-        /// Открывает диалог выбора файла со списком URL адресов товаров,
-        /// которые нужно спарсить.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FileSelectorURLs_Click(object sender, EventArgs e)
-        {
-            if (OPD.ShowDialog() == DialogResult.OK)
-            {
-                filePath = OPD.FileName;
-                label1.Text = filePath;
-                button1.Enabled = true;
-                URLSimgStatus.Image = Properties.Resources.done;
-            }
-        }
-
-        /// <summary>
-        /// Открывает диалог выбора папки куда по умолчанию Chrome сохраняет скаченные изображения.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog FBD = new FolderBrowserDialog();
-            if (FBD.ShowDialog() == DialogResult.OK) {
-                downloadFolderPath = FBD.SelectedPath;
-                downFolderPathLabel.Text = FBD.SelectedPath;
-                OpenBrowser.Enabled = true;
-                DownloadFolderStatus.Image = Properties.Resources.done;
-            }
-        }
+        }      
     }
 }

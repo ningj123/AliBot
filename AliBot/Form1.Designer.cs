@@ -273,7 +273,7 @@
             // URLSimgStatus
             // 
             this.URLSimgStatus.Image = global::AliBot.Properties.Resources.quit;
-            this.URLSimgStatus.Location = new System.Drawing.Point(12, 18);
+            this.URLSimgStatus.Location = new System.Drawing.Point(13, 18);
             this.URLSimgStatus.Name = "URLSimgStatus";
             this.URLSimgStatus.Size = new System.Drawing.Size(25, 26);
             this.URLSimgStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
